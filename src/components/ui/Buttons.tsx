@@ -22,7 +22,7 @@ const sizeStyle = {
     "lg": "py-4 px-6"
 }
 
-const defaultStyle = "rounded-md flex cursor-pointer hover:bg-purple-500"
+const defaultStyle = "rounded-md flex cursor-pointer hover:bg-purple-400"
 
 export const Button = ( props: ButtonProps) =>{
     return <button className={`${VarientStyle[props.varient]} ${defaultStyle} ${sizeStyle[props.size]} `} onClick={props.onClick}> 

@@ -5,17 +5,19 @@ import { ShareIcon } from "../icons/ShareIcon"
 import { CreateContentModal } from "../components/ui/CreateContentModal"
 import { useState } from "react"
 import { Sidebar } from "../components/ui/Sidebar"
+import { useContent } from "../hooks/useContent"
+import axios from "axios"
+import { BACKEND_URL } from "../config"
 
 export function Dashboard() {
 
-  <script async src="https://platform.twitter.com/widgets.js"></script>
-  const [modelOpen,setModelOpen] = useState(false);
-
+    const [modelOpen,setModelOpen] = useState(false);
+    const { contents, refresh } = useContent();
   return (
     <>
       <Sidebar/>
       <div className="p-4 ml-72 min-h-screen bg-gray-200">
-        <CreateContentModal open={modelOpen} onClose={()=>{
+        <CreateContentModal refresh={refresh} open={modelOpen} onClose={()=>{
           setModelOpen(false);
 
         }}/>
@@ -25,16 +27,24 @@ export function Dashboard() {
           <Button startIcon={<PlusIcon size="lg"/>} varient="primary" text="Add content" size="md" onClick={()=>{
             setModelOpen(true);
           }}/>
-          <Button startIcon={<ShareIcon size="lg"/>} varient="primary" text="Share content" size="md"/>
+          <Button onClick={async()=>{
+            const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`,{
+                "share": true
+            },{
+                headers:{
+                    "Authorization": localStorage.getItem("token")
+                }
+            });
+            const shareLink = `${BACKEND_URL}/api/v1/brain/${response.data.hash}`
+            console.log({shareLink})
+            alert(shareLink)
+          }} startIcon={<ShareIcon size="lg"/>} varient="primary" text="Share content" size="md"/>
         </div>
 
-        <div className="flex gap-4 ">
-          <Card type="youtube" link="https://youtu.be/AE39gJYuRog?si=BC29zTmRgKI5DW_W" title="DSA Solution"/>
-          <Card type="twitter" link="https://x.com/FCB_nenn/status/2064633227965267999?s=20" title="DSA Solution"/>
-          <Card type="twitter" link="https://x.com/FCB_nenn/status/2064633227965267999?s=20" title="DSA Solution"/>
-          <Card type="twitter" link="https://x.com/FCB_nenn/status/2064633227965267999?s=20" title="DSA Solution"/>
-          <Card type="twitter" link="https://x.com/FCB_nenn/status/2064633227965267999?s=20" title="DSA Solution"/>
-          <Card type="twitter" link="https://x.com/FCB_nenn/status/2064633227965267999?s=20" title="DSA Solution"/>
+        <div className="flex gap-4 flex-wrap">
+          {contents.map(({type,link, title})=>
+            <Card type={type} link={link} title={title} />
+        )}
         
         </div>
       </div>
