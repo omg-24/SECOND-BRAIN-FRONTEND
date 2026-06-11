@@ -8,7 +8,7 @@ export interface ButtonProps {
     text: string,
     startIcon?: any,
     endIcon?: any,
-    Onclick?: () => void;
+    onClick: () => void;
 }
 
 const VarientStyle = {
@@ -22,11 +22,11 @@ const sizeStyle = {
     "lg": "py-4 px-6"
 }
 
-const defaultStyle = "rounded-md flex"
+const defaultStyle = "rounded-md flex cursor-pointer hover:bg-purple-500"
 
 export const Button = ( props: ButtonProps) =>{
-    return <button className={`${VarientStyle[props.varient]} ${defaultStyle} ${sizeStyle[props.size]}`}> 
-    {props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null}
+    return <button className={`${VarientStyle[props.varient]} ${defaultStyle} ${sizeStyle[props.size]} `} onClick={props.onClick}> 
+    {props.startIcon ? <div className="pr-2" >{props.startIcon}</div> : null}
     {props.text} {props.endIcon}
     </button>
 }
