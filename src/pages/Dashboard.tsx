@@ -45,9 +45,10 @@ export function Dashboard() {
                       "Authorization": localStorage.getItem("token")
                     }
                   });
-                  const shareLink = `${BACKEND_URL}/api/v1/brain/${response.data.hash}`;
+                  
+                  const shareLink = `https://second-brain-frontend-upxm.vercel.app/share/${response.data.hash}`;
                   console.log({ shareLink });
-                  alert(shareLink);
+                  alert("Your Link "+ shareLink);
                 }} startIcon={<ShareIcon size="lg" />} varient="secondary" text="Share content" size="md" />
               </div>
             </div>
