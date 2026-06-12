@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { ShareIcon } from "../../icons/ShareIcon";
 
 interface CardProps {
     title: string;
@@ -16,8 +15,6 @@ function getYouTubeId(url: string | undefined) {
 
 export function Card({ title, link, type }: CardProps) {
     useEffect(() => {
-        console.log("LINK:", link);
-
         if (type === "twitter") {
             const initTwitter = () => {
                 const w = (window as any);
@@ -45,38 +42,23 @@ export function Card({ title, link, type }: CardProps) {
     const embedSrc = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : undefined;
 
     return (
-        <div>
-            <div className="p-4 bg-white rounded-md border border-gray-200 w-72 min-w-72 min-h-48">
-
-                <div className="flex justify-between items-center">
-
-                    <div className="flex items-center text-md">
-                        <div className="text-gray-500 pr-2">
-                             <ShareIcon size="md" />
-                        </div>
-
-                        {title}
+        <div className="w-full">
+            <div className="flex h-full flex-col gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="space-y-1">
+                        <div className="text-base font-semibold text-gray-900">{title}</div>
+                        <div className="text-sm text-gray-500">{type === "youtube" ? "YouTube content" : "Twitter content"}</div>
                     </div>
-
-                    <div className="flex items-center">
-                        <div className="pr-2 text-gray-500">
-                            <a href={link} target="_blank" rel="noopener noreferrer">
-                                <ShareIcon size="md" />
-                            </a>
-                        </div>
-
-                        <div className="text-gray-500">
-                            <ShareIcon size="md" />
-                        </div>
+                    <div className="rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-purple-700">
+                        {type}
                     </div>
-
                 </div>
 
-                <div className="pt-4">
+                <div className="space-y-4">
                     {type === "youtube" && embedSrc ? (
-                        <div className="w-full">
+                        <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black">
                             <iframe
-                                className="w-full h-48"
+                                className="h-full w-full"
                                 src={embedSrc}
                                 title="YouTube video player"
                                 frameBorder="0"
@@ -86,7 +68,7 @@ export function Card({ title, link, type }: CardProps) {
                             />
                         </div>
                     ) : type === "youtube" && !embedSrc ? (
-                        <a href={link} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600">Open video</a>
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="text-sm text-purple-600 hover:text-purple-800">Open video</a>
                     ) : null}
 
                     {type === "twitter" && (
@@ -96,6 +78,12 @@ export function Card({ title, link, type }: CardProps) {
                     )}
                 </div>
 
+                <div className="flex items-center justify-between pt-2 text-sm text-gray-500">
+                    <span>Link saved</span>
+                    <a href={link} target="_blank" rel="noopener noreferrer" className="font-medium text-purple-700 hover:text-purple-900">
+                        Open source
+                    </a>
+                </div>
             </div>
         </div>
     );

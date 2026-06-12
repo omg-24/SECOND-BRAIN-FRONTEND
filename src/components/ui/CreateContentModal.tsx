@@ -33,44 +33,54 @@ export function CreateContentModal({open, onClose, refresh}:{open: boolean; onCl
         onClose();
     }
 
-    return <div>
-        {open && <div className="w-screen h-screen fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center">
-            <div className="bg-white rounded px-3">
-                <span className="bg-white rounded opacity-100 ">
-                  <div className="flex justify-end pt-2">
-                        <div onClick={onClose} className="cursor-pointer ">
-                            <CancelIcon/>
+    return (
+        <div>
+            {open && (
+                <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+                    <div className="w-full max-w-xl rounded-[32px] bg-white p-6 shadow-2xl">
+                        <div className="flex justify-end">
+                            <button onClick={onClose} className="rounded-full p-2 transition hover:bg-gray-100">
+                                <CancelIcon />
+                            </button>
+                        </div>
+
+                        <div className="space-y-5">
+                            <div>
+                                <h2 className="text-2xl font-semibold text-gray-900">Add new content</h2>
+                                <p className="mt-1 text-sm text-gray-500">Save a YouTube or Twitter link to your brain.</p>
+                            </div>
+
+                            <div className="space-y-4">
+                                <Input ref={titleRef} placeholder="Title" />
+                                <Input ref={linkRef} placeholder="Link" />
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Type</div>
+                                <div className="flex flex-wrap gap-2">
+                                    <Button
+                                        text="Youtube"
+                                        size="sm"
+                                        varient={type === ContentType.Youtube ? "primary" : "secondary"}
+                                        onClick={() => setType(ContentType.Youtube)}
+                                    />
+
+                                    <Button
+                                        text="Twitter"
+                                        size="sm"
+                                        varient={type === ContentType.Twitter ? "primary" : "secondary"}
+                                        onClick={() => setType(ContentType.Twitter)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end">
+                                <Button onClick={addContent} varient="primary" size="md" text="Submit" />
+                            </div>
                         </div>
                     </div>
-                    <div className="pt-3">
-                            <Input ref={titleRef} placeholder = {"Title"} />
-                            <div className="pt-2 "></div>
-                            <Input ref={linkRef} placeholder = {"Link"} />
-
-                    </div>
-                    <h1 className="font-mono">Type</h1>
-                    <div className="flex p-1.5 gap-1">
-                        
-                        <Button
-                            text="Youtube" size="sm"
-                            varient={type === ContentType.Youtube ? "primary" : "secondary"} onClick={()=>{
-                                setType(ContentType.Youtube)
-                            }}
-                        />
-
-                        <Button
-                            text="Twitter" size="sm"
-                            varient={type === ContentType.Twitter ? "primary" : "secondary"}  onClick={()=>{
-                                setType(ContentType.Twitter)
-                            }}
-                        />
-                    </div>
-
-                    <div className="justify-center flex pt-2.5 py-2.5  ">
-                            <Button onClick={addContent} varient="primary" size="md" text="Submit"/>
-                    </div>
-                </span>
-            </div>
-        </div> }
-    </div>
+                </div>
+            )}
+        </div>
+    );
 }
